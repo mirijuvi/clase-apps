@@ -4,6 +4,12 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+
+body {
+  font-family: "Lexend", sans-serif;
+}
+
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
