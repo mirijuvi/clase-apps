@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { House } from '@lucide/vue';
+import { House, Menu } from '@lucide/vue';
  import {
   NavigationMenu,
   NavigationMenuItem,
@@ -10,18 +10,43 @@ import { House } from '@lucide/vue';
 import CarrusImaginum from '@/components/CarrusImaginum.vue';
 
 import {scrollToSection} from '@/utils/scrolltosection'
+import { onMounted, ref } from 'vue';
+import { Toggle } from '@/components/ui/toggle'
 
 
 
 
 
 const photos = ["justice", "arkham", "superman", "varios", "villana", "villano", "grupo", "robin", "anne", "joker", "resplandor", "cat", "gafas", "league", "fondoVerde"]
+
+const videreMenu = ref<boolean>(true)
+
+const handleResize = () => {
+  if (window.innerWidth < 640) {
+    videreMenu.value = false;
+  } else {
+    videreMenu.value = true;
+  }
+};
+
+onMounted(() => {
+  handleResize(); // Check initial window size
+  window.addEventListener('resize', handleResize);
+});
 </script>
 
 
 <template>
   <div class="batman">
-    <nav class="extra-nav flex flex-col sm:flex-row justify-between px-3">
+
+<Toggle
+  class="fixed top-2 right-4 z-50 bg-slate-500 sm:hidden"
+@click="videreMenu = !videreMenu"
+>
+<Menu />
+</Toggle>
+
+    <nav v-if="videreMenu" class="extra-nav flex flex-col sm:flex-row justify-between px-3">
       <RouterLink to="/">
         <House class="icon-home" />
       </RouterLink>
