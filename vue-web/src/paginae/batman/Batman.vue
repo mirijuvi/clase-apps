@@ -1,18 +1,8 @@
 <script lang="ts" setup>
-import { House, Menu } from '@lucide/vue';
- import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle,
-} from '@/components/ui/navigation-menu'
-import CarrusImaginum from '@/components/CarrusImaginum.vue';
-
 import {scrollToSection} from '@/utils/scrolltosection'
-import { onMounted, onUnmounted, ref } from 'vue';
-import { Toggle } from '@/components/ui/toggle'
+import CarrusImaginum from '@/components/CarrusImaginum.vue';
 import { useMouseMotion } from '@/composables/useMouseMotion';
+import NavigatorPrimarus from '@/components/NavigatorPrimarus.vue';
 
 
 
@@ -20,26 +10,31 @@ const photos = ["justice", "arkham", "superman", "varios", "villana", "villano",
 
 const{ mousePositione, cumMouseMove, cumMouseLeave } = useMouseMotion();
 
-const videreMenu = ref<boolean>(true)
+const Menuitems = [{
+  label: 'Portada',
+  href: '#',
+  onClick: () => scrollToSection('#')
+},
+{
+  label: 'Vehículos',
+  href: '#vehiculis',
+  onClick: () => scrollToSection('#vehiculis')
+},
+{
+  label: 'Imágenes',
+  href: '#videre',
+  onClick: () => scrollToSection('#videre')
+},
+{
+  label: 'Contacto',
+  href: '#contactus',
+  onClick: () => scrollToSection('#contactus')
+}
+  
+] 
 
 
-const handleResize = () => {
-  if (window.innerWidth < 640) {
-    videreMenu.value = false;
-  } else {
-    videreMenu.value = true;
-  }
-};
 
-onMounted(() => {
-  handleResize(); // Check initial window size
-  window.addEventListener('resize', handleResize);
-});
-
-
-onUnmounted(() => {
-  window.removeEventListener('resize', handleResize);
-});
 
 
 
@@ -50,56 +45,9 @@ onUnmounted(() => {
 <template>
   <div class="batman">
 
-<Toggle
-  class="fixed top-2 right-4 z-50 bg-slate-500 sm:hidden"
-@click="videreMenu = !videreMenu"
->
-<Menu />
-</Toggle>
-
-    <nav v-if="videreMenu" class="extra-nav flex flex-col sm:flex-row justify-between px-3">
-      <RouterLink to="/">
-        <House class="icon-home" />
-      </RouterLink>
-
-      <NavigationMenu>
-        <NavigationMenuList class=" flex flex-col sm:flex-row ">
-          <NavigationMenuItem>
-            <a href="#" @click.prevent="scrollToSection ('#')">
-              <NavigationMenuLink :class="[navigationMenuTriggerStyle(), 'text-md hover:bg-brand-purple hover:text-white transition-colors']">
-                Portada
-              </NavigationMenuLink>
-            </a>
-          </NavigationMenuItem>
-
-          <NavigationMenuItem>
-            <a href="#vehiculis" @click.prevent="scrollToSection ('#vehiculis')">
-              <NavigationMenuLink :class="[navigationMenuTriggerStyle(), 'text-md hover:bg-brand-purple hover:text-white transition-colors']">
-                Vehículos
-              </NavigationMenuLink>
-            </a>
-          </NavigationMenuItem>
-
-          <NavigationMenuItem>
-            <a href="#videre" @click.prevent="scrollToSection ('#videre')">
-              <NavigationMenuLink :class="[navigationMenuTriggerStyle(), 'text-md hover:bg-brand-purple hover:text-white transition-colors']">
-                Imágenes
-              </NavigationMenuLink>
-            </a>
-          </NavigationMenuItem>
-
-          <NavigationMenuItem>
-            <a href="#contactus" @click.prevent="scrollToSection ('#contactus')">
-              <NavigationMenuLink :class="[navigationMenuTriggerStyle(), 'text-md hover:bg-brand-purple hover:text-white transition-colors']">
-                Contacto
-              </NavigationMenuLink>
-            </a>
-          </NavigationMenuItem>
-        </NavigationMenuList>
-      </NavigationMenu>
+  <NavigatorPrimarus :items="Menuitems" homeRoute="/" />
 
 
-    </nav>
 
     <header class="titulus">
       <h1>Batman</h1>
@@ -173,39 +121,6 @@ basepath="/imagines/batman"
 
 .batman {
   font-family: Arial, Helvetica, sans-serif;
-}
-
-.icon-home{
-  color: rgb(255, 174, 228);
-  width: 3rem;
-  height: 3rem
-
-}
-
-.icon-home:hover {
-  color: white;
-  background-color: rgb(202, 133, 202);
-}
-
-
-.extra-nav {
-  background-color: white;
-  opacity: 0.7;
-  box-shadow: rgba(0, 0, 0, 0.7);
-  position: fixed;
-  top: 0;
-  width: 11rem;
-  border-radius: 0 0 1rem 0;
-  z-index: 1;
-}
-
-@media (min-width: 640px){
-  .extra-nav {
-    width: 100%;
-    border-radius: 0;
-    opacity: 1;
-    left: 0;
-  }
 }
 
 .titulus-img {
