@@ -16,7 +16,9 @@ import Button from '@/components/ui/button/Button.vue';
 
     <header class="bg-simpsons-yellow w-full border border-black">
 <div class="flex flex-col md:flex-row justify-between items-center p-3 mx-auto- max-w-page md:px-20">
- <LogoSimpsons estilus="w-[8rem] h-auto"></LogoSimpsons>
+ <LogoSimpsons estilus="w-[8rem] h-auto" 
+ @click="$router.push('/simpsons')"
+  />
     <div class="flex gap-6 pt-3 pb-3">
       <RouterLink to="/simpsons/gallery"
       active-class="font-bold">
