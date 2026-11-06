@@ -9,12 +9,27 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-const dialogApertEst = ref<boolean>(false);
-  const quaestio = ref<string>('');
+const dialogApertaEst = ref<boolean>(false);
+const quaestio = ref<string>('');
+const router = useRouter();
 
- 
+const cumKeyPressumEnter = (eventus: KeyboardEvent) => {
+  if (eventus.key === 'Enter') {
+    const textusItinerans = quaestio.value.trim()
+
+    if (textusItinerans.length > 0 && textusItinerans.endsWith('?')) {
+     dialogApertaEst.value = false;}
+      router.push(
+        {
+          path: '/indecision',
+          state : { quaestio: textusItinerans }
+        }
+      )
+    }
+  }
 
 </script>
 
@@ -33,8 +48,8 @@ const dialogApertEst = ref<boolean>(false);
 Aprendiendo a crear apli caciones web
 </p>
     <div class= "scale-z-10">
- <Dialog :open="dialogApertEst"
- @update:open="dialogApertEst = $event"
+ <Dialog :open="dialogApertaEst"
+ @update:open="dialogApertaEst = $event"
  >
       <DialogTrigger as-child>
         <Button variant="domus" class="mr-2">
@@ -50,7 +65,8 @@ Aprendiendo a crear apli caciones web
         </DialogHeader>
          <div class="mt-4">
           <Input class= "bg-domus-navy text-white placeholder:text-gray-400 placeholder:text-gray-400" placeholder="Escribe tu pregunta aquí..."
-          v-model="quaestio" />
+          v-model="quaestio" 
+          @keydown="cumKeyPressumEnter"/>
         
         </div>
         </DialogContent> 
